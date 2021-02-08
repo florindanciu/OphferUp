@@ -60,7 +60,7 @@ const SearchBar = (props) => {
         <Col>
           <div className="input-box">
             <Icon></Icon>
-            <input
+            <Input
               className="search-input"
               placeholder="Search for offers"
               onChange={(e) => setName(e.target.value)}
@@ -70,19 +70,13 @@ const SearchBar = (props) => {
         <Col>
           <div className="input-box">
             <Location></Location>
-            <input
+            <Input
               className="search-input"
               placeholder="Everywhere"
               onChange={(e) => setLocation(e.target.value)}
             />
           </div>
         </Col>
-
-        {/* <Col>
-          <button type="submit" className="input-button">
-            Search
-          </button>
-        </Col> */}
       </Row>
     </Form>
   );

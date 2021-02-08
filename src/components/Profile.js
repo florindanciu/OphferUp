@@ -21,6 +21,9 @@ const Profile = () => {
       <p>
         <strong>Email:</strong> {currentUser.email}
       </p>
+      <p>
+        <strong>List of all posts: </strong> POST call to API/itemsByUserId/{currentUser.id}
+      </p>
       <strong>Authorities:</strong>
       <ul>
         {currentUser.roles &&

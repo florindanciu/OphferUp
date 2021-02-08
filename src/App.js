@@ -10,7 +10,7 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import HomePage from "./components/HomePage";
 import Profile from "./components/Profile";
-import UserProfile from "./components/UserProfile";
+import AddPost from "./components/AddPost";
 import SellerProfile from "./components/SellerProfile";
 import AdminBoard from "./components/AdminBoard";
 import ItemsByCategory from "./components/ItemsByCategory";
@@ -69,18 +69,15 @@ const App = () => {
               </Link>
             </li>
           )}
-
-          {currentUser && (
-            <li className="nav-item">
-              <Link to={"/user"} className="nav-link">
-                User
-              </Link>
-            </li>
-          )}
         </div>
 
         {currentUser ? (
           <div className="navbar-nav ml-auto">
+            <li className="nav-item">
+              <Link to={`/add-post/${currentUser.id}`} className="nav-link">
+                Add post
+              </Link>
+            </li>
             <li className="nav-item">
               <Link to={"/profile"} className="nav-link">
                 {currentUser.username}
@@ -94,6 +91,12 @@ const App = () => {
           </div>
         ) : (
           <div className="navbar-nav ml-auto">
+            <li className="nav-item">
+              <Link to={`/add-post/undefined`} className="nav-link">
+                Add post
+              </Link>
+            </li>
+
             <li className="nav-item">
               <Link to={"/login"} className="nav-link">
                 Login
@@ -115,9 +118,12 @@ const App = () => {
           <Route exact path="/login" component={Login} />
           <Route exact path="/register" component={Register} />
           <Route exact path="/profile" component={Profile} />
-          <Route path="/items/category/:categoryId" component={ItemsByCategory} />
+          <Route
+            path="/items/category/:categoryId"
+            component={ItemsByCategory}
+          />
           <Route path="/details/:itemId" component={ItemDetails} />
-          <Route path="/user" component={UserProfile} />
+          <Route path="/add-post/:userId" component={AddPost} />
           <Route path="/seller" component={SellerProfile} />
           <Route path="/admin" component={AdminBoard} />
         </Switch>
