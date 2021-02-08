@@ -3,11 +3,12 @@ import UserService from "../services/user.service";
 import { Card, CardColumns } from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
 
-const ItemsFilter = () => {
+const ItemsByCategory = () => {
   const [content, setContent] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [category, setCategory] = useState("")
-  const {categoryId} = useParams();
+  const [category, setCategory] = useState("");
+  const { categoryId } = useParams();
+  
 
   useEffect(() => {
     setLoading(true);
@@ -42,33 +43,37 @@ const ItemsFilter = () => {
       }
     );
   }, [categoryId]);
-  
-  const textToDisplay = loading
-    ? "Loading..."
-    : content.map((item) => (
-        <Card key={item.id}>
-          <Link>
-            <Card.Img variant="top" src={item.image} />
-          </Link>
-          <Card.Body>
-            <Card.Text>{item.name}</Card.Text>
-            <small className="text-muted">
-              {item.location} - {item.postingDate}
-            </small>
 
-            <Card.Title style={{ marginTop: "20px" }}>
-              $ {item.price}
-            </Card.Title>
-          </Card.Body>
-        </Card>
-      ));
+  const textToDisplay = loading ? (
+    "Loading..."
+  ) : content.length === 0 ? (
+    <Card style={{ textAlign: "center", color: "green" }}>No products on this category</Card>
+  ) : (
+    content.map((item) => (
+      <Card key={item.id}>
+        <Link to={`/details/${item.id}`}>
+          <Card.Img variant="top" src={item.image} />
+        </Link>
+        <Card.Body>
+          <Card.Text>{item.name}</Card.Text>
+          <small className="text-muted">
+            {item.location} - {item.postingDate}
+          </small>
+
+          <Card.Title style={{ marginTop: "20px" }}>$ {item.price}</Card.Title>
+        </Card.Body>
+      </Card>
+    ))
+  );
 
   return (
     <div>
-      <h3 style={{ textAlign: "center" }}>All Offers from {category.enumCategory}</h3>
+      <h3 style={{ textAlign: "center" }}>
+        All Offers from {category.enumCategory}
+      </h3>
       <CardColumns>{textToDisplay}</CardColumns>
     </div>
   );
 };
 
-export default ItemsFilter;
+export default ItemsByCategory;

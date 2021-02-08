@@ -8,17 +8,85 @@ label {
   padding: 40px 40px;
 }
 
+.input-box {
+  display: flex;
+  align-items: center;
+  margin-top: 30px;
+  border: none;
+  background-color: white;
+  outline: none;
+  height: 60px;
+  width: 100%;
+  padding: 20px;
+}
+
+.search-input {
+  margin-left: 30px;
+  width: 400px;
+  outline: none;
+  border: none;
+}
+
+/* .input {
+  flex: 1;
+  margin-left: 20px;
+  border: none;
+
+} */
+
+/* .input-button {
+  display: inline;
+  margin-top: 30px;
+  border: none;
+  background-color: white;
+  color: rgb(104, 103, 103);
+  outline: none;
+  height: 60px;
+  width: 100%;
+}
+
+.input-button:hover {
+  background-color: #343a40;
+  color: whitesmoke;
+} */
+
+/* ::placeholder{
+  text-indent: 80px;
+} */
+
+/* :placeholder-shown {
+  text-indent: 60px;
+} */
+
+.category-button {
+  margin-right: 25px;
+  border: none;
+  border-radius: 100%;
+  background-color: rgb(243, 236, 236);
+  color: rgb(104, 103, 103);
+  outline: none;
+  height: 100px;
+  width: 10%;
+}
+
+.category-button:hover {
+  background-color: #343a40;
+  color: whitesmoke;
+}
+
+.chip:hover {
+  background-color: tomato;
+}
+
 .card {
-  background-color: #f7f7f7;
+  border: none;
+  background-color: white;
   padding: 20px 25px 30px;
   margin: 0 auto 25px;
   margin-top: 50px;
   -moz-border-radius: 2px;
   -webkit-border-radius: 2px;
   border-radius: 2px;
-  -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-  -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
 }
 
 .profile-img-card {
@@ -36,4 +104,8 @@ label {
   display: "grid";
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   grid-gap: 20px;
+}
+
+body {
+  background-color: rgb(243, 236, 236);
 }

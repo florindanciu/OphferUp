@@ -8,16 +8,28 @@ const getItemsContent = () => {
 };
 
 const getItemsByCategory = (categoryId) => {
-  return axios.get(API_URL + `items/category/${categoryId}`)
-}
+  return axios.get(API_URL + `items/category/${categoryId}`);
+};
 
 const getCategories = () => {
-  return axios.get(API_URL + "categories")
-}
+  return axios.get(API_URL + "categories");
+};
 
 const getCategoryById = (categoryId) => {
-  return axios.get(API_URL + `categories/${categoryId}`)
-}
+  return axios.get(API_URL + `categories/${categoryId}`);
+};
+
+const getItemsByName = (itemName) => {
+  return axios.get(API_URL + `items/${itemName}`);
+};
+
+const getItemsByLocation = (itemLocation) => {
+  return axios.get(API_URL + `items/${itemLocation}`);
+};
+
+const getItemsByNameAndLocation = (itemName, itemLocation) => {
+  return axios.get(API_URL + `items/name/${itemName}/location/${itemLocation}`);
+};
 
 const getPublicContent = () => {
   return axios.get(API_URL + "routes/all");
@@ -37,6 +49,9 @@ const getAdminBoard = () => {
 
 export default {
   getItemsContent,
+  getItemsByName,
+  getItemsByLocation,
+  getItemsByNameAndLocation,
   getCategories,
   getCategoryById,
   getItemsByCategory,

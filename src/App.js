@@ -13,7 +13,8 @@ import Profile from "./components/Profile";
 import UserProfile from "./components/UserProfile";
 import SellerProfile from "./components/SellerProfile";
 import AdminBoard from "./components/AdminBoard";
-import ItemsFilter from "./components/ItemsFilter";
+import ItemsByCategory from "./components/ItemsByCategory";
+import ItemDetails from "./components/ItemDetails";
 
 const App = () => {
   const [adminContent, setAdminContent] = useState(false);
@@ -114,7 +115,8 @@ const App = () => {
           <Route exact path="/login" component={Login} />
           <Route exact path="/register" component={Register} />
           <Route exact path="/profile" component={Profile} />
-          <Route path="/items/category/:categoryId" component={ItemsFilter} />
+          <Route path="/items/category/:categoryId" component={ItemsByCategory} />
+          <Route path="/details/:itemId" component={ItemDetails} />
           <Route path="/user" component={UserProfile} />
           <Route path="/seller" component={SellerProfile} />
           <Route path="/admin" component={AdminBoard} />
