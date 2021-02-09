@@ -82,7 +82,7 @@ const Register = (props) => {
     if (checkBtn.current.context._errors.length === 0) {
       AuthService.register(username, email, password).then(
         (response) => {
-          setMessage(response.data.message);
+          setMessage(response.data);
           setSuccessful(true);
         },
         (error) => {
