@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useMemo } from "react";
 import Input from "react-validation/build/input";
 import Form from "react-validation/build/form";
 import { Col, Row } from "react-bootstrap";
-import { Card, CardColumns, InputGroup, FormControl } from "react-bootstrap";
+import { Card, CardColumns } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Categories from "./Categories";
 import Icon from "@material-ui/icons/Search";
@@ -13,6 +13,7 @@ const SearchBar = (props) => {
   const [location, setLocation] = useState("");
   const data = props.items;
   const loading = props.loading;
+  const length = props.length + " Current offers";
 
   const filteredResults = useMemo(() => {
     if (!name && !location) {
@@ -54,6 +55,8 @@ const SearchBar = (props) => {
         </Card>
       ));
 
+  console.log(length);
+
   const inputSearch = (
     <Form>
       <Row>
@@ -62,7 +65,7 @@ const SearchBar = (props) => {
             <Icon></Icon>
             <Input
               className="search-input"
-              placeholder="Search for offers"
+              placeholder={length}
               onChange={(e) => setName(e.target.value)}
             />
           </div>

@@ -25,10 +25,7 @@ const Home = () => {
 
   return (
     <div>
-      <SearchBar
-        items={content}
-        loading={isLoading}
-      />
+      <SearchBar length={content.length} items={content} loading={isLoading} />
     </div>
   );
 };

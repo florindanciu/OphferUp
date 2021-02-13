@@ -5,7 +5,6 @@ import { Link, useParams } from "react-router-dom";
 import Input from "react-validation/build/input";
 import Form from "react-validation/build/form";
 import { Col, Row } from "react-bootstrap";
-import Categories from "./Categories";
 import Icon from "@material-ui/icons/Search";
 import Location from "@material-ui/icons/LocationOn";
 

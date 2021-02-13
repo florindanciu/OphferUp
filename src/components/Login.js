@@ -3,6 +3,7 @@ import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 import AuthService from "../services/auth.service";
+import { Button } from "react-bootstrap";
 
 const required = (value) => {
   if (!value) {
@@ -98,12 +99,12 @@ const Login = (props) => {
           </div>
 
           <div className="form-group">
-            <button className="btn btn-primary btn-block" disabled={loading}>
-              {loading && (
-                <span className="spinner-border spinner-border-sm"></span>
-              )}
-              <span>Login</span>
-            </button>
+            <Button type="submit" variant="primary" block>
+              Login
+            </Button>
+            <Button variant="outline-info" block href="/register">
+              Create an account
+            </Button>
           </div>
 
           {message && (

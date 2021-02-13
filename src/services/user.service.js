@@ -7,6 +7,35 @@ const getItemsContent = () => {
   return axios.get(API_URL + "items");
 };
 
+const addItem = (
+  userId,
+  itemName,
+  category,
+  description,
+  contactEmail,
+  contactPerson,
+  image,
+  location,
+  phoneNumber,
+  price
+) => {
+  return axios.post(
+    API_URL + `items/${userId}`,
+    {
+      itemName,
+      category,
+      description,
+      contactEmail,
+      contactPerson,
+      image,
+      location,
+      phoneNumber,
+      price,
+    },
+    { headers: authHeader() }
+  );
+};
+
 const getItemsByCategory = (categoryId) => {
   return axios.get(API_URL + `items/category/${categoryId}`);
 };
@@ -26,6 +55,18 @@ const getItemsByName = (itemName) => {
 const getItemsByLocation = (itemLocation) => {
   return axios.get(API_URL + `items/${itemLocation}`);
 };
+
+const getItemById = (itemId) => {
+  return axios.get(API_URL + `items/${itemId}`);
+};
+
+const getUserByItemId = (itemId) => {
+  return axios.get(`items/user/item/${itemId}`);
+};
+
+const getItemsByUserId = (userId) => {
+  return axios.get(API_URL + `items/user/${userId}`)
+}
 
 const getItemsByNameAndLocation = (itemName, itemLocation) => {
   return axios.get(API_URL + `items/name/${itemName}/location/${itemLocation}`);
@@ -49,7 +90,11 @@ const getAdminBoard = () => {
 
 export default {
   getItemsContent,
+  addItem,
   getItemsByName,
+  getItemById,
+  getUserByItemId,
+  getItemsByUserId,
   getItemsByLocation,
   getItemsByNameAndLocation,
   getCategories,

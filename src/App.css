@@ -20,11 +20,25 @@ label {
   padding: 20px;
 }
 
+.message{
+  width: 40%;
+  height: 200%;
+  border: none;
+  background-color: white;
+  outline: none;
+}
+
 .search-input {
   margin-left: 30px;
   width: 400px;
   outline: none;
   border: none;
+}
+
+.add-item-submit-button {
+  margin-top: 50px;
+  width: 20%;
+  float: right;
 }
 
 /* .input {
@@ -34,27 +48,31 @@ label {
 
 } */
 
-/* .input-button {
+.add-button {
   display: inline;
   margin-top: 30px;
-  border: none;
+  border: red;
   background-color: white;
   color: rgb(104, 103, 103);
-  outline: none;
-  height: 60px;
-  width: 100%;
+  /* outline: none; */
+  /* height: 60px; */
+  /* width: 100%; */
 }
 
-.input-button:hover {
+.add-button:hover {
   background-color: #343a40;
   color: whitesmoke;
-} */
+}
+
+.add-button:link {
+  text-decoration: none;
+}
 
 /* ::placeholder{
   text-indent: 80px;
-} */
+}
 
-/* :placeholder-shown {
+:placeholder-shown {
   text-indent: 60px;
 } */
 
