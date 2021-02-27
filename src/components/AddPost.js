@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import Form from "react-validation/build/form";
@@ -6,6 +6,8 @@ import Input from "react-validation/build/input";
 import UserService from "../services/user.service";
 import { Col, Row, Alert, Button } from "react-bootstrap";
 import Control from "react-bootstrap/Form";
+import { useDropzone } from "react-dropzone";
+import axios from "axios";
 
 const AddPost = () => {
   const { userId } = useParams();
@@ -14,7 +16,7 @@ const AddPost = () => {
   const [description, setDescription] = useState("");
   const [contactEmail, setContactEmail] = useState("");
   const [contactPerson, setContactPerson] = useState("");
-  const [image, setImage] = useState("");
+  // const [image, setImage] = useState("");
   const [location, setLocation] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [price, setPrice] = useState("");
@@ -53,7 +55,6 @@ const AddPost = () => {
       description,
       contactEmail,
       contactPerson,
-      image,
       location,
       phoneNumber,
       price
@@ -68,11 +69,58 @@ const AddPost = () => {
             error.response.data &&
             error.response.data.message) ||
           error.message ||
-          error.toString();
-
+          error.toString()
         setMessage(resMessage);
         setSuccessfull("false");
       }
+    );
+  };
+
+  const Dropzone = () => {
+    const onDrop = useCallback((acceptedFiles) => {
+      const file = acceptedFiles[0];
+      console.log(file);
+      const formData = new FormData();
+      formData.append("file", file);
+      axios
+        .post(
+          `http://localhost:5000/api/v1/items/image/${userId}/upload`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        )
+        .then(() => {
+          console.log("File uploaded successfuly");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }, []);
+    const { getRootProps, getInputProps, isDragActive } = useDropzone({
+      onDrop,
+    });
+    return (
+      <div {...getRootProps()}>
+        <input {...getInputProps()} />
+        {isDragActive ? (
+          <Input
+            type="text"
+            className="input-box"
+            name="image"
+            placeholder="Drop image here..."
+          />
+        ) : (
+          <Input
+            type="text"
+            className="input-box"
+            name="image"
+            placeholder="Drag 'n' drop images here, or click to browse images"
+          />
+        )}
+      </div>
     );
   };
 
@@ -179,14 +227,7 @@ const AddPost = () => {
             </Row>
             <Row>
               <Col>
-                <Input
-                  type="text"
-                  className="input-box"
-                  name="image"
-                  placeholder="Image"
-                  value={image}
-                  onChange={(e) => setImage(e.target.value)}
-                />
+                <Dropzone />
               </Col>
               <Col>
                 <Input

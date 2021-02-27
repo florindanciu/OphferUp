@@ -3,6 +3,10 @@ import authHeader from "./auth-header";
 
 const API_URL = `http://localhost:5000/api/v1/`;
 
+const getCoordinates = (params) => {
+  return axios.get("http://api.positionstack.com/v1/forward", { params });
+};
+
 const getItemsContent = () => {
   return axios.get(API_URL + "items");
 };
@@ -65,8 +69,8 @@ const getUserByItemId = (itemId) => {
 };
 
 const getItemsByUserId = (userId) => {
-  return axios.get(API_URL + `items/user/${userId}`)
-}
+  return axios.get(API_URL + `items/user/${userId}`);
+};
 
 const getItemsByNameAndLocation = (itemName, itemLocation) => {
   return axios.get(API_URL + `items/name/${itemName}/location/${itemLocation}`);
@@ -89,6 +93,7 @@ const getAdminBoard = () => {
 };
 
 export default {
+  getCoordinates,
   getItemsContent,
   addItem,
   getItemsByName,

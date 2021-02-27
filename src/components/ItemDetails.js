@@ -1,62 +1,44 @@
 import React, { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import UserService from "../services/user.service";
 import { Col, Row, Image, Container, Button } from "react-bootstrap";
 import { scroller } from "react-scroll";
 import Map from "./Map";
-import axios from "axios";
 import Location from "@material-ui/icons/LocationOn";
+
 import Geocode from "react-geocode";
 
 const ItemDetails = () => {
   const { itemId } = useParams();
   const [item, setItem] = useState([]);
   const [user, setUser] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [lat, setLat] = useState();
-  const [lng, setLng] = useState();
-
-  useEffect( () => {
-    setLoading(true);
-    UserService.getItemById(itemId).then(
-      (response) => {
-        setLoading(false);
-        setItem(response.data);
-      }).catch((error) => {
-        console.log(error);
-      }) 
-  }, [itemId]);
-
-  const params = {
-    access_key: "b653616f996cbf8503d3b57729670a32",
-    query: "Chicago, IL 60659",
-  };
+  const [lat, setLat] = useState(1);
+  const [lng, setLng] = useState(1);
 
   useEffect(() => {
-    axios
-      .get("http://api.positionstack.com/v1/forward", { params })
-      .then((response) => {
-        setLat(response.data.data[0].latitude);
-        setLng(response.data.data[0].longitude);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [item])
+    async function fetchdata() {
+      const itemResponse = await UserService.getItemById(itemId);
+      setItem(itemResponse.data);
+      // const params = {
+      //   access_key: "b653616f996cbf8503d3b57729670a32",
+      //   query: itemResponse.data.location,
+      // };
+      // const coordinatesResponse = await UserService.getCoordinates(params);
+      // setLat(coordinatesResponse.data.data[0].latitude);
+      // setLng(coordinatesResponse.data.data[0].longitude);
+    }
+    fetchdata();
+  }, [itemId]);
 
-  // Geocode.setApiKey("AIzaSyDFX8yu7eMqVvh9AC4u7r2wEYaCbKZnPCA");
-
-  //   Geocode.fromAddress(item.location).then(
-  //     (response) => {
-  //       const { lat, lng } = response.results[0].geometry.location;
-  //       console.log(response)
-  //       setLat(lat);
-  //       setLng(lng);
-  //     },
-  //     (error) => {
-  //       console.error(error);
-  //     }
-  //   );
+  {
+    /* - Convert addresses to coordinates -
+  Geocode.setApiKey("AIzaSyDFX8yu7eMqVvh9AC4u7r2wEYaCbKZnPCA");
+  const coordinatesResponse = await Geocode.fromAddress(itemResponse.data.location);
+  const { latitude, longitude } = coordinatesResponse.results[0].geometry.location;
+  setLat(latitude);
+  setLng(longitude);
+  */
+  }
 
   const scrollToSection = () => {
     scroller.scrollTo("message", {
@@ -107,14 +89,16 @@ const ItemDetails = () => {
           <hr />
           <Row>
             <Col>
-              <Map
-                googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyDFX8yu7eMqVvh9AC4u7r2wEYaCbKZnPCA&v=3.exp&libraries=geometry,drawing,places"
-                loadingElement={<div style={{ height: `100%` }} />}
-                containerElement={<div style={{ height: `400px` }} />}
-                mapElement={<div style={{ height: `60%` }} />}
-                lat={lat}
-                lng={lng}
-              />
+              {lat && lng ? (
+                <Map
+                  googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyDFX8yu7eMqVvh9AC4u7r2wEYaCbKZnPCA&v=3.exp&libraries=geometry,drawing,places"
+                  loadingElement={<div style={{ height: `100%` }} />}
+                  containerElement={<div style={{ height: `237px` }} />}
+                  mapElement={<div style={{ height: `100%` }} />}
+                  lat={lat}
+                  lng={lng}
+                />
+              ) : null}
             </Col>
           </Row>
         </Col>

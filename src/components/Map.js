@@ -8,21 +8,13 @@ import {
 
 const Map = withScriptjs(
   withGoogleMap((props) => {
-    const [lat, setLat] = useState();
-    const [lng, setLng] = useState();
-
-    useEffect(() => {
-      setLat(props.lat)
-      setLng(props.lng)
-      }, [props])
-    console.log(lat, lng)
-
+    console.log(`from map ${props.lat} ${props.lng}`);
     return (
       <GoogleMap
         defaultZoom={10}
-        defaultCenter={{ lat: 41.87897, lng: -87.66063 }}
+        defaultCenter={{ lat: props.lat, lng: props.lng }}
       >
-        <Marker position={{ lat: 41.87897, lng: -87.66063 }} />
+        <Marker position={{ lat: props.lat, lng: props.lng }} />
       </GoogleMap>
     );
   })
