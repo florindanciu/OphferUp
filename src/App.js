@@ -14,17 +14,18 @@ import AdminBoard from "./components/AdminBoard";
 import ItemsByCategory from "./components/ItemsByCategory";
 import ItemDetails from "./components/ItemDetails";
 import Navbar from "./utils/Navbar";
+import Footer from "./utils/Footer";
 
 const App = () => {
   return (
     <div>
       <Navbar />
-      <div className="container mt-3">
+      <div id="content-wrap" className="container mt-3">
         <Switch>
           <Route exact path={["/", "/home"]} component={HomePage} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/register" component={Register} />
-          <Route exact path="/profile" component={Profile} />
+          <Route exact path="/profile/:userId" component={Profile} />
           <Route
             path="/items/category/:categoryId"
             component={ItemsByCategory}
@@ -35,6 +36,7 @@ const App = () => {
           <Route path="/admin" component={AdminBoard} />
         </Switch>
       </div>
+      <Footer />
     </div>
   );
 };

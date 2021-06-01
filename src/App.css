@@ -11,20 +11,41 @@ label {
 .input-box {
   display: flex;
   align-items: center;
-  margin-top: 30px;
+  margin-top: 17px;
+  margin-bottom: 17px;
   border: none;
   background-color: white;
   outline: none;
-  height: 60px;
+  height: 70px;
   width: 100%;
   padding: 20px;
 }
 
-.message{
-  width: 40%;
-  height: 200%;
+.fileContainer {
+  overflow: hidden;
+  position: relative;
+}
+
+.fileContainer [type="file"] {
+  cursor: inherit;
+  display: block;
+  font-size: 999px;
+  filter: alpha(opacity=0);
+  min-height: 100%;
+  min-width: 100%;
+  opacity: 0;
+  position: absolute;
+  right: 0;
+  text-align: right;
+  top: 0;
+}
+
+.message {
+  width: 100%;
+  height: 200px;
   border: none;
-  background-color: white;
+  border-radius: 5px;
+  background-color: rgb(243, 236, 236);
   outline: none;
 }
 
@@ -76,20 +97,15 @@ label {
   text-indent: 60px;
 } */
 
-.category-button {
-  margin-right: 25px;
-  border: none;
-  border-radius: 100%;
-  background-color: rgb(243, 236, 236);
-  color: rgb(104, 103, 103);
-  outline: none;
-  height: 100px;
-  width: 10%;
+.category-link {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
-.category-button:hover {
-  background-color: #343a40;
-  color: whitesmoke;
+.category-link a {
+  text-decoration: none;
+  color: rgb(104, 103, 103);
 }
 
 .chip:hover {
@@ -101,7 +117,7 @@ label {
   background-color: white;
   padding: 20px 25px 30px;
   margin: 0 auto 25px;
-  margin-top: 50px;
+  margin-top: 8px;
   -moz-border-radius: 2px;
   -webkit-border-radius: 2px;
   border-radius: 2px;
@@ -117,12 +133,55 @@ label {
   border-radius: 50%;
 }
 
+#categories-avatar {
+  width: 90px;
+  height: 90px;
+}
+
 .cards {
   width: "18rem";
   display: "grid";
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   grid-gap: 20px;
 }
+
+#root {
+  position: relative;
+  min-height: 78vh;
+}
+
+#content-wrap {
+  padding-bottom: 2.5rem; /* Footer height */
+}
+
+.footer {
+  padding-left: 20px;
+  padding-right: 20px;
+  width: 100%;
+  height: 0.5rem;
+  position: absolute;
+  bottom: 0;
+}
+
+.footer-body {
+  padding: 1rem;
+}
+
+.footer p {
+  font-weight: bold;
+}
+
+.footer-bottom img {
+  width: 140px;
+}
+
+.footer-bottom small {
+  float: right;
+}
+
+/* hr.footer-border {
+  border: 1px solid darkgray;
+} */
 
 body {
   background-color: rgb(243, 236, 236);

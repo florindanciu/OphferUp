@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import UserService from "../services/user.service";
 import { Card } from "react-bootstrap";
+import Avatar from "@material-ui/core/Avatar";
 
-const Categories = () => {
+const Categories = ({ length }) => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -26,19 +27,34 @@ const Categories = () => {
   const categoriesToDisplay = loading
     ? "Loading..."
     : categories.map((cat) => (
-        <button
-          key={cat.id}
-          className="category-button"
-          onClick={() => (window.location.href = `/items/category/${cat.id}`)}
-        >
+        <Card.Link key={cat.id} href={`/items/category/${cat.id}`}>
+          {cat.enumCategory === "Vehicles" ? (
+            <Avatar src="/auto.png" id="categories-avatar" />
+          ) : cat.enumCategory === "Electronics" ? (
+            <Avatar src="/electronics.png" id="categories-avatar" />
+          ) : cat.enumCategory === "Fashion" ? (
+            <Avatar src="/fashion.png" id="categories-avatar" />
+          ) : cat.enumCategory === "Home" ? (
+            <Avatar src="/home.png" id="categories-avatar" />
+          ) : cat.enumCategory === "Jobs" ? (
+            <Avatar src="/jobs.jpeg" id="categories-avatar" />
+          ) : cat.enumCategory === "Pets" ? (
+            <Avatar src="/pets.png" id="categories-avatar" />
+          ) : cat.enumCategory === "Estates" ? (
+            <Avatar src="/estates.png" id="categories-avatar" />
+          ) : cat.enumCategory === "Services" ? (
+            <Avatar src="/services.png" id="categories-avatar" />
+          ) : (
+            ""
+          )}
           {cat.enumCategory}
-        </button>
+        </Card.Link>
       ));
 
   return (
     <Card style={{ textAlign: "center", marginBottom: "50px" }}>
       <h3>Categories</h3>
-      <Card.Body>{categoriesToDisplay}</Card.Body>
+      <Card.Body className="category-link">{categoriesToDisplay}</Card.Body>
     </Card>
   );
 };

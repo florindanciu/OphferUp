@@ -11,33 +11,22 @@ const getItemsContent = () => {
   return axios.get(API_URL + "items");
 };
 
-const addItem = (
-  userId,
-  itemName,
-  category,
-  description,
-  contactEmail,
-  contactPerson,
-  image,
-  location,
-  phoneNumber,
-  price
-) => {
-  return axios.post(
-    API_URL + `items/${userId}`,
-    {
-      itemName,
-      category,
-      description,
-      contactEmail,
-      contactPerson,
-      image,
-      location,
-      phoneNumber,
-      price,
-    },
-    { headers: authHeader() }
-  );
+const addItem = (userId, item) => {
+  return axios.post(API_URL + `items/${userId}`, item, {
+    headers: authHeader(),
+  });
+};
+
+const updateItem = (itemId, item) => {
+  return axios.put(API_URL + `items/item/${itemId}`, item, {
+    headers: authHeader(),
+  });
+};
+
+const uploadImages = (itemId, formData) => {
+  return axios.post(API_URL + `items/image/${itemId}/upload`, formData, {
+    headers: authHeader(),
+  });
 };
 
 const getItemsByCategory = (categoryId) => {
@@ -65,7 +54,7 @@ const getItemById = (itemId) => {
 };
 
 const getUserByItemId = (itemId) => {
-  return axios.get(`items/user/item/${itemId}`);
+  return axios.get(API_URL + `items/user/item/${itemId}`);
 };
 
 const getItemsByUserId = (userId) => {
@@ -80,8 +69,10 @@ const getPublicContent = () => {
   return axios.get(API_URL + "routes/all");
 };
 
-const getUserProfile = () => {
-  return axios.get(API_URL + "routes/user", { headers: authHeader() });
+const getUserProfile = (userId) => {
+  return axios.get(API_URL + `routes/user/${userId}`, {
+    headers: authHeader(),
+  });
 };
 
 const getSellerProfile = () => {
@@ -92,10 +83,16 @@ const getAdminBoard = () => {
   return axios.get(API_URL + "routes/admin", { headers: authHeader() });
 };
 
+const deleteItem = (itemId) => {
+  return axios.delete(API_URL + `items/${itemId}`, { headers: authHeader() });
+};
+
 export default {
   getCoordinates,
   getItemsContent,
   addItem,
+  updateItem,
+  uploadImages,
   getItemsByName,
   getItemById,
   getUserByItemId,
@@ -109,4 +106,5 @@ export default {
   getUserProfile,
   getSellerProfile,
   getAdminBoard,
+  deleteItem,
 };

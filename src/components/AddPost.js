@@ -1,29 +1,30 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Link } from "react-router-dom";
-import Form from "react-validation/build/form";
-import Input from "react-validation/build/input";
 import UserService from "../services/user.service";
-import { Col, Row, Alert, Button } from "react-bootstrap";
-import Control from "react-bootstrap/Form";
-import { useDropzone } from "react-dropzone";
-import axios from "axios";
+import { Alert, Button } from "react-bootstrap";
+import OfferForm from "../utils/OfferForm";
 
 const AddPost = () => {
   const { userId } = useParams();
-  const [itemName, setItemName] = useState("");
-  const [category, setCategory] = useState("");
-  const [description, setDescription] = useState("");
-  const [contactEmail, setContactEmail] = useState("");
-  const [contactPerson, setContactPerson] = useState("");
-  // const [image, setImage] = useState("");
-  const [location, setLocation] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [price, setPrice] = useState("");
   const [message, setMessage] = useState("");
   const [successfull, setSuccessfull] = useState("");
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [item, setItem] = useState({
+    itemName: "",
+    description: "",
+    category: "",
+    price: "",
+    location: "",
+    contactPerson: "",
+    contactEmail: "",
+    phoneNumber: "",
+  });
+  const [files, setFiles] = useState({
+    file1: {},
+    file2: {},
+    file3: {},
+  });
 
   useEffect(() => {
     setLoading(true);
@@ -42,25 +43,30 @@ const AddPost = () => {
     );
   }, []);
 
-  const handleAddForm = (e) => {
+  const handleForm = (e) => {
     e.preventDefault();
 
     setMessage("");
     setSuccessfull("");
 
-    UserService.addItem(
-      userId,
-      itemName,
-      category,
-      description,
-      contactEmail,
-      contactPerson,
-      location,
-      phoneNumber,
-      price
-    ).then(
+    UserService.addItem(userId, item).then(
       (response) => {
-        setMessage(response.data);
+        if (response.status === 200) {
+          const itemId = response.data.new_itemId;
+          // creating FormData object
+          const formData = new FormData();
+          formData.append("file1", files.file1);
+          formData.append("file2", files.file2);
+          formData.append("file3", files.file3);
+
+          UserService.uploadImages(itemId, formData)
+            .then((response) => {
+              setMessage(`${response.data} submitted.`);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }
         setSuccessfull("true");
       },
       (error) => {
@@ -69,59 +75,26 @@ const AddPost = () => {
             error.response.data &&
             error.response.data.message) ||
           error.message ||
-          error.toString()
+          error.toString();
         setMessage(resMessage);
         setSuccessfull("false");
       }
     );
   };
 
-  const Dropzone = () => {
-    const onDrop = useCallback((acceptedFiles) => {
-      const file = acceptedFiles[0];
-      console.log(file);
-      const formData = new FormData();
-      formData.append("file", file);
-      axios
-        .post(
-          `http://localhost:5000/api/v1/items/image/${userId}/upload`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        )
-        .then(() => {
-          console.log("File uploaded successfuly");
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }, []);
-    const { getRootProps, getInputProps, isDragActive } = useDropzone({
-      onDrop,
+  const onChangeHandler = (e) => {
+    console.log(e.target.value);
+    setItem({
+      ...item,
+      [e.target.name]: e.target.value,
     });
-    return (
-      <div {...getRootProps()}>
-        <input {...getInputProps()} />
-        {isDragActive ? (
-          <Input
-            type="text"
-            className="input-box"
-            name="image"
-            placeholder="Drop image here..."
-          />
-        ) : (
-          <Input
-            type="text"
-            className="input-box"
-            name="image"
-            placeholder="Drag 'n' drop images here, or click to browse images"
-          />
-        )}
-      </div>
-    );
+  };
+
+  const onChangeFileHandler = (e) => {
+    setFiles({
+      ...files,
+      [e.target.name]: e.target.files[0],
+    });
   };
 
   const notification = () => {
@@ -153,131 +126,18 @@ const AddPost = () => {
           </Alert>
         </>
       ) : (
-        <React.Fragment>
+        <div>
           <h2>Add offer</h2>
           {notification()}
-          <Form onSubmit={handleAddForm}>
-            <Row>
-              <Col>
-                <Input
-                  placeHolder="Item name"
-                  type="text"
-                  className="input-box"
-                  name="itemName"
-                  value={itemName}
-                  onChange={(e) => setItemName(e.target.value)}
-                />
-              </Col>
-              <Col>
-                <Control
-                  className="input-box"
-                  as="select"
-                  size="lg"
-                  value={category}
-                  onChange={(e) => setCategory(e.target.value)}
-                >
-                  <option aria-label="None" value="">
-                    Category
-                  </option>
-                  {categories.map((category) => {
-                    return (
-                      <option value={category.enumCategory}>
-                        {category.enumCategory}
-                      </option>
-                    );
-                  })}
-                </Control>
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <Control
-                  as="textarea"
-                  style={{ height: "200px" }}
-                  type="text"
-                  placeholder="Description"
-                  className="input-box"
-                  name="description"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                />
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <Input
-                  type="text"
-                  className="input-box"
-                  name="contactEmail"
-                  placeholder="Contact email"
-                  value={contactEmail}
-                  onChange={(e) => setContactEmail(e.target.value)}
-                />
-              </Col>
-              <Col>
-                <Input
-                  type="text"
-                  className="input-box"
-                  name="contactPerson"
-                  placeholder="Contact person"
-                  value={contactPerson}
-                  onChange={(e) => setContactPerson(e.target.value)}
-                />
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <Dropzone />
-              </Col>
-              <Col>
-                <Input
-                  type="text"
-                  className="input-box"
-                  name="location"
-                  placeholder="Location"
-                  value={location}
-                  onChange={(e) => setLocation(e.target.value)}
-                />
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <Input
-                  type="text"
-                  className="input-box"
-                  name="phoneNumber"
-                  placeholder="Phone number"
-                  value={phoneNumber}
-                  onChange={(e) => setPhoneNumber(e.target.value)}
-                />
-              </Col>
-              <Col>
-                <Input
-                  type="text"
-                  className="input-box"
-                  name="price"
-                  placeholder="Price"
-                  value={price}
-                  onChange={(e) => setPrice(e.target.value)}
-                />
-              </Col>
-            </Row>
-            <Row style={{ marginTop: "30px" }}>
-              <Col>
-                <Button
-                  style={{ marginRight: "10px" }}
-                  type="submit"
-                  variant="primary"
-                >
-                  Submit
-                </Button>
-                <Link type="button" to="/profile">
-                  <Button variant="danger">Cancel</Button>
-                </Link>
-              </Col>
-            </Row>
-          </Form>
-        </React.Fragment>
+          <OfferForm
+            handleForm={handleForm}
+            onChangeHandler={onChangeHandler}
+            item={item}
+            categories={categories}
+            onChangeFileHandler={onChangeFileHandler}
+            handleCancel={"/"}
+          />
+        </div>
       )}
     </div>
   );
